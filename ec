@@ -28,14 +28,14 @@ function ec {
       show)
           shift
           for i in "$@"; do
-            echo "$HOME/${ec_configs[$i]}"
+            echo "${ec_configs[$i]}"
           done
           ;;
       reload)
           shift
           for i in "$@"; do
             if [[ ${ec_reload_required[*]} =~ "$i" ]]; then
-              source "$HOME/${ec_configs[$i]}"
+              source "${ec_configs[$i]}"
             fi
           done
           ;;
@@ -44,7 +44,7 @@ function ec {
           ec_location="$2"
           echo "declare -A ec_configs"
           echo "ec_configs=("
-          echo "  ['bash']=\".bashrc\""
+          echo "  ['bash']=\"$HOME/.bashrc\""
           echo "  ['ec']=\"$ec_location\""
           echo ")"
           echo ""
