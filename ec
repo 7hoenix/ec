@@ -4,7 +4,6 @@
 #
 
 function ec {
-  set -o nounset
   case "$1" in
       ''|help)
           echo "Basic Usage"
@@ -41,6 +40,7 @@ function ec {
           done
           ;;
       generate_template)
+          set -o nounset
           ec_location="$2"
           echo "declare -A ec_configs"
           echo "ec_configs=("
@@ -51,6 +51,7 @@ function ec {
           echo "# These are utilities that should be sourced into the shell."
           echo "ec_reload_required=(bash ec)"
           echo "source \"$ec_location\""
+          set +o nounset
           ;;
       *)
           # This implementation assumes that the editor supports the -o flag for multiple files.
@@ -58,5 +59,4 @@ function ec {
           ec show "$@" | xargs $EDITOR -o
           ec reload "$@"
   esac
-  set +o nounset
 }
