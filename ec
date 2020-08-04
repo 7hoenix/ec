@@ -17,9 +17,11 @@ function ec {
           echo "   To reload the configuration file(s)."
           echo "ec generate_template [ec_path]"
           echo "   Generate a template at the desired [ec_path]."
+          echo
+          ec list
           ;;
       list)
-          echo "Available configuration files:"
+          [ -t 1 ] && echo "Available configuration files:"
           for config in "${!ec_configs[@]}"
           do
             echo "    $config"
@@ -60,3 +62,12 @@ function ec {
           ec reload "$@"
   esac
 }
+
+function _ec_complete {
+  words="$(ec list)"
+  if [ "${#COMP_WORDS[@]}" == 2 ]; then
+    words="reload show list help $words"
+  fi
+  COMPREPLY=$(compgen -W "$words" "${COMP_WORDS[-1]}")
+}
+complete -F _ec_complete ec
